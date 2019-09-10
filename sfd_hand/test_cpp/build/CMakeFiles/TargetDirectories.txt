@@ -1,0 +1,1 @@
+/home/cy/projects/obejct_detect/sfd_hand/test_cpp/build/CMakeFiles/keyboard.dir

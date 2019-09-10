@@ -1,0 +1,3 @@
+/home/cy/projects/piano/press_detect/build/CMakeFiles/edit_cache.dir
+/home/cy/projects/piano/press_detect/build/CMakeFiles/rebuild_cache.dir
+/home/cy/projects/piano/press_detect/build/CMakeFiles/code_test.dir
