@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 2.8)
-project(keyboard)
+project(dif)
 FIND_PACKAGE(OpenCV REQUIRED)
-include_directories(${OpenCV_INCLUDE_DIR})  #包含opencv库
-set(CMAKE_CXX_STANDADR 11)
+include_directories(${OpenCV_INCLUDE_DIR})
+include_directories(${CMAKE_CURRENT_LIST_DIR}/functions/headers)
+set(CMAKE_CXX_FLAGS "-std=c++0x")
 
-file(GLOB SOURCE_FILES keyboard.cpp)  #用GLOB包含可执行文件
-add_executable(keyboard ${SOURCE_FILES})  #给工程添加可执行文件，存在变量SOURCE_FILES
-TARGET_LINK_LIBRARIES(keyboard ${OpenCV_LIBS})  #链接到OpenCV库
+file(GLOB SOURCE_FILES enhance_light.cpp ./functions/*.cpp)  #添加源文件,函数的cpp文件也记得添加进去
+add_executable(dif ${SOURCE_FILES})
+TARGET_LINK_LIBRARIES(dif ${OpenCV_LIBS})

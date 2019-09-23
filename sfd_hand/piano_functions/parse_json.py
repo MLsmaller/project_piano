@@ -10,6 +10,7 @@ import numpy as np
 import json
 import argparse
 
+
 parser = argparse.ArgumentParser(description=" parse the pressed keys")
 parser.add_argument("--json_path", type=str, default="/home/data/cy/projects/piano/KJnotes/json_dir/pressed_w2.json",
                     help="the json file path")

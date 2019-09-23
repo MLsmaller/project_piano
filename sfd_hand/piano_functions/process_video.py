@@ -7,7 +7,28 @@ from __future__ import print_function
 
 import cv2
 import numpy as np
-import math,os
+import math, os
+from skimage import data, filters
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--video_path", type=str, default="/home/data/cy/projects/piano/KJnotes/1音协五级 听妈妈讲那过去的事情.mp4",
+                    help="视频的存储路径")
+parser.add_argument("--save_path", type=str, default="/home/data/cy/projects/piano/KJnotes/frames1/whole_img",
+                    help="将视频分帧后的存储路径")
+parser.add_argument("--txt_path", type=str, default="/home/data/cy/projects/piano/KJnotes/json_dir/txt/video1.txt",
+                    help="将分帧后的图片存储为一个带有时间的txt文件")
+parser.add_argument("--crop_path", type=str, default="/home/data/cy/projects/piano/KJnotes/frames1/crop_img",
+                    help="将图片裁剪后的(只带有钢琴)所要存储的路径")
+# parser.add_argument("--Rect",type=Rect,)                                        
+args = parser.parse_args()
+
+Rect = (41, 500, 1245, 634)   #--- (x,y,x+w,y+h)
+
+if not os.path.exists(args.save_path):
+    os.mkdir(args.save_path)
+if not os.path.exists(args.crop_path):
+    os.mkdir(args.crop_path)
 
 #-----将视频分帧,生成一个带时间的txt文件----
 def crop_video(video_path,save_path,txt_path):
@@ -44,10 +65,26 @@ def crop_video(video_path,save_path,txt_path):
     print("the txt file {} has done ".format(txt_path))
         #print(img_name)
 
-#----将图片裁剪-----
+#----将图片裁剪,用于其他文件调用函数时-----
 def crop_img(crop_path, img_list, Rect):
     if not os.path.exists(crop_path):
         os.mkdir(crop_path)
+    
+    for img1 in img_list:
+        print(img1)
+        imgTocrop = cv2.imread(img1)
+        crop_img = imgTocrop[Rect[1]:Rect[3], Rect[0]:Rect[2]]
+        cv2.imwrite(os.path.join(crop_path, os.path.basename(img1)), crop_img)
+
+#----将图片裁剪,用于当前文件函数的调用-----
+def crop_img1(crop_path, save_path, Rect):
+    if not os.path.exists(crop_path):
+        os.mkdir(crop_path)
+    file_list = [x for x in os.listdir(save_path)]
+    file_list.sort(key=lambda x: int(x[:-4]))
+    img_list = [os.path.join(save_path, x) for x in file_list
+                if x.endswith(".jpg")]
+    
     for img1 in img_list:
         print(img1)
         imgTocrop = cv2.imread(img1)
@@ -64,10 +101,17 @@ def process_img(img, Rect):
                     #print(img_path)
                     img[row][col][channel]=128
     return img
-        
+
+def thrs_otsu(img):
+    # gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    res_img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
+    cv2.imwrite("./test_ostu.jpg", res_img)
+
 #-------下面的可用于测试上面写的函数-----
 if __name__ == "__main__":
-    video_path = "/home/data/cy/projects/piano/KJnotes/frame2.mp4"
-    save_path = "/home/data/cy/projects/piano/KJnotes/frames2/whole_img"  #---随便写的
-    txt_path = "/home/data/cy/projects/piano/KJnotes/json_dir/txt/video2.txt"
-    crop_video(video_path,save_path,txt_path)
+    crop_video(args.video_path, args.save_path, args.txt_path)
+    # crop_img1(args.crop_path, args.save_path, Rect)
+    
+    print(type(Rect))
+
+    

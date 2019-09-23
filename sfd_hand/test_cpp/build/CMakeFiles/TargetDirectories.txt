@@ -1,1 +1,3 @@
-/home/cy/projects/obejct_detect/sfd_hand/test_cpp/build/CMakeFiles/keyboard.dir
+/home/cy/projects/github/project_piano/sfd_hand/test_cpp/build/CMakeFiles/rebuild_cache.dir
+/home/cy/projects/github/project_piano/sfd_hand/test_cpp/build/CMakeFiles/edit_cache.dir
+/home/cy/projects/github/project_piano/sfd_hand/test_cpp/build/CMakeFiles/dif.dir
